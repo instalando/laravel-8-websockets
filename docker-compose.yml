@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: study_app
+        image: nginx:stable-alpine
+        restart: unless-stopped
+        ports:
+            - "80:80"
+        volumes:
+            - ./src/web:/var/www/web:delegated
+            - ./src/app:/var/www/app:delegated
+            - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+        networks:
+            - backend
+    php:
+        container_name: study_php
+        build:
+            context: .
+            dockerfile: php.dockerfile
+        volumes:
+            - ./src/app:/var/www/app:delegated
+        networks:
+            - backend
+    websockets:
+        container_name: study_websockets
+        build:
+            context: .
+            dockerfile: websockets.dockerfile
+        ports:
+            - "6001:6001"
+        volumes:
+            - ./src/app:/var/www/app:delegated
+        networks:
+            - backend
+    mariadb:
+        container_name: study_mariadb
+        image: mariadb:10
+        restart: always
+        environment: 
+            MYSQL_USER: study
+            MYSQL_PASSWORD: study
+            MYSQL_DATABASE: study
+            MYSQL_ROOT_PASSWORD: study
+        ports: 
+            - 3306:3306
+        networks:
+            - backend
+        volumes:
+            - ./mariadb:/var/lib/mysql
+networks:
+  backend:
+    driver: bridge
