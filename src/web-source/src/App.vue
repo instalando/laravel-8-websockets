@@ -5,9 +5,16 @@
 <script>
 export default {
   mounted () {
-    window.Echo.channel('TestEvent').listen('.TestEvent', (res) => {
-      console.log(res)
-    })
+    setTimeout(() => {
+      this.$echo
+        .channel('test')
+        .listen('.TestEvent', function (res) {
+          console.log(res)
+        })
+    }, 3000)
+  },
+  beforeDestroy () {
+    this.$echo.leave('test')
   }
 }
 </script>

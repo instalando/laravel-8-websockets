@@ -8,16 +8,21 @@ Vue.config.productionTip = false
 
 window.Pusher = require('pusher-js')
 
-window.Echo = new Echo({
+Vue.prototype.$echo = new Echo({
   broadcaster: 'pusher',
   key: process.env.VUE_APP_PUSHER_APP_KEY,
   cluster: process.env.VUE_APP_PUSHER_APP_CLUSTER,
-  host: 'api.localhost',
+  host: 'localhost',
   wsHost: window.location.hostname,
   wsPort: 6001,
   forceTLS: false,
   disableStats: true,
   authEndpoint: 'http://api.localhost/broadcasting/auth'
+  // auth: {
+  //   headers: {
+  //     Authorization: 'Bearer ' + ''
+  //   }
+  // }
 })
 
 new Vue({

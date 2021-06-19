@@ -12,7 +12,7 @@ services:
             - ./src/app:/var/www/app:delegated
             - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
         networks:
-            - backend
+            - app-network
     php:
         container_name: study_php
         build:
@@ -21,7 +21,7 @@ services:
         volumes:
             - ./src/app:/var/www/app:delegated
         networks:
-            - backend
+            - app-network
     websockets:
         container_name: study_websockets
         build:
@@ -32,7 +32,7 @@ services:
         volumes:
             - ./src/app:/var/www/app:delegated
         networks:
-            - backend
+            - app-network
     mariadb:
         container_name: study_mariadb
         image: mariadb:10
@@ -45,9 +45,9 @@ services:
         ports: 
             - 3306:3306
         networks:
-            - backend
+            - app-network
         volumes:
             - ./mariadb:/var/lib/mysql
 networks:
-  backend:
+  app-network:
     driver: bridge

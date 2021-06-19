@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Broadcast;
 //     return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('TestEvent', function () {
+Broadcast::channel('test', function () {
     return true;
 });
